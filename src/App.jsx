@@ -160,7 +160,7 @@ const ResetGameBtn = () => {
     setRow(0);
     setIndex(0);
     setSubmittedRows([]);
-    window.location.reload
+    window.location.reload()
   }
 
   return (
