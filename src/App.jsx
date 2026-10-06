@@ -36,18 +36,15 @@ if (event.repeat) return;
 if (event.key === "Backspace" ) {
 
 
-  if (currentIndex >= 0){ 
-  if (newGrid[currentRow][currentIndex] == ''){
-      setGridArray(newGrid);
-      setIndex((prevIndex) => prevIndex + 1)
-  }
-  else{
-    newGrid[currentRow][currentIndex] = '';
-    if(currentIndex > 0){
-    setIndex((prevIndex) => prevIndex - 1)}
+  if (newGrid[currentRow][currentIndex] == '' && currentIndex > 0){
+    setIndex((prevIndex) => prevIndex - 1)
+    newGrid[currentRow][currentIndex-1] = '';
     setGridArray(newGrid);
   }
-}
+  else if(newGrid[currentRow][currentIndex] != '' &&currentIndex >= 0){
+    newGrid[currentRow][currentIndex] = '';
+    setGridArray(newGrid);
+  }
 
 }
 if(alphabet.includes(letter)){
