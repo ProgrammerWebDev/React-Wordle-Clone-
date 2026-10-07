@@ -20,7 +20,13 @@ const [gridArray, setGridArray] = useState([
   ['', '', '', '', '']
 ]);
 const [submittedRows, setSubmittedRows] = useState([]);
-
+  const handleReset = () => {
+    const newGrid = Array(5).fill().map(() => Array(5).fill(''));
+    setGridArray(newGrid);
+    setRow(0);
+    setIndex(0);
+    setSubmittedRows([]);
+  };
 useEffect(() =>{
 
 
@@ -32,7 +38,11 @@ const letter = event.key.toUpperCase()
 
 const newGrid = gridArray.map((row) => [...row]);
 if (event.repeat) return;
-
+if(event.key == "Control" && letter == "R"){
+  event.preventDefault();
+  handleReset()
+  console.log("Resetting Game")
+}
 if (event.key === "Backspace" ) {
 
 
@@ -102,10 +112,10 @@ function getTileBg(letter,index,rowIndex){
 }
 
 return (
-<ArrayContext.Provider value={{gridArray,setGridArray,currentRow,setRow,currentIndex,setIndex,setSubmittedRows,submittedRows}}>
+<ArrayContext.Provider value={{gridArray,setGridArray,currentRow,setRow,currentIndex,setIndex,setSubmittedRows,submittedRows,handleReset}}>
 <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
 <div className={`p-10 min-h-screen flex flex-col justify-center items-center relative transition-colors duration-300 ${isDarkMode ? 'bg-slate-900 text-slate-50' : 'bg-slate-50 text-slate-900'}`}>
-    <ResetGameBtn/>
+    <ResetGameBtn onClick={handleReset} />
     <ThemeSwitchButton />
 <div className ="grid grid-rows-5 justify-center gap-4 ">
 {gridArray.map((row,rowIndex) => (
@@ -148,22 +158,11 @@ const  ThemeSwitchButton = () => {
   ) 
 }
 
-const ResetGameBtn = () => {
-  const { setGridArray,  setRow, setIndex,setSubmittedRows} = useContext(ArrayContext)
-
-  const handleReset = () => {
-    const newGrid = Array(5).fill().map(() => Array(5).fill(''));
-    setGridArray(newGrid);
-    setRow(0);
-    setIndex(0);
-    setSubmittedRows([]);
-  }
-
+const ResetGameBtn = ({ onClick }) => {
   return (
-    <button className="py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-300 top-6 left-6 absolute" onClick={handleReset}>
+    <button onClick={onClick} className="py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-300 top-6 left-6 absolute">
       Reset Game
     </button>
   )
 }
-
 export default App
